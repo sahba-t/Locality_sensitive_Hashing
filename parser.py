@@ -11,9 +11,14 @@ def parse_data():
 			result[int(tokens[0]), int(tokens[1])] = int(tokens[2])
 	return result
 
+def cos_similarity(v1, v2):
+	return np.dot(v1,v2) / (np.linalg.norm(v1,None) * np.linalg.norm(v2, None))
+
 
 if __name__ == '__main__':
 	result = parse_data();
 	# test
 	print(result[1,3:17])
 	print(result[1000,61030:])
+
+	print(cos_similarity(result[1,:], result[1000,:]))
