@@ -3,12 +3,13 @@ import numpy as np
 
 def parse_data():
 	input_file = 'data.csv'
-	#adding 1 to 61067 adn1 1000 because data is 1 indexed!
+	#adding 1 to 61067 and 1 1000 because data is 1 indexed!
 	result = np.zeros(shape=(1001,61068), dtype=np.int16)
 	with open(input_file, 'r') as inStream:
 		for line in inStream:
 			tokens = (line.strip()).split(',')
 			result[int(tokens[0]), int(tokens[1])] = int(tokens[2])
+	# the result has the size 1001 * 61068 we care about indices 1->61067
 	return result
 
 def cos_similarity(v1, v2):
