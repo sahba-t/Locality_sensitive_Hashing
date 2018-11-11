@@ -14,7 +14,7 @@ def tuple_to_idx(v):
         # from k elements in the vector to a 2^k number
         if x > 0:
             result |= mask
-            mask <<= 1
+        mask <<= 1
     return result
 
 def init_hash_matrices(l, k):
@@ -42,12 +42,16 @@ def hash_elements(input_data, l):
     for i in range(1, input_lines + 1):
         for j in range(0, l):
             hash_results = np.matmul(hash_matrices[j], np.transpose(input_data[i]))
-            print(hash_results)
+            # print(hash_results)
             idx = tuple_to_idx(hash_results)
             hash_tables[j][idx].append(i)
-            
+
 
 if __name__ == '__main__':
+    print(tuple_to_idx([1,2,3,4]))
+    print(tuple_to_idx([-1,-2,3,4]))
+    print(tuple_to_idx([1,2,-3,-4]))
+
     l = 4
     k = 4
     init_hash_matrices(l, k)
