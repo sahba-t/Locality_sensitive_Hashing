@@ -2,11 +2,15 @@ import parser
 import numpy as np
 import math
 import bruteForce
+import sys
 
-hash_tables = []
-hash_matrices = []
+hash_tables = None
+hash_matrices = None
 dimension = 61068
 input_lines = 1000
+line_break = '-----------------------------------------------------\n'
+# turn debug output on and off!
+debug = False
 # gets a vector which is the result of our hash (with k has functions) and maps that to a index
 def tuple_to_idx(v):
     result = 0
@@ -25,6 +29,9 @@ def init_hash_matrices(l, k):
     # dimension = 5
 
     global hash_tables, hash_matrices
+    hash_tables = []
+    hash_matrices = []
+    
     for i in range(0, l):
         hash_table = []
         for j in range(0, 2**k):
@@ -49,7 +56,7 @@ def hash_elements(input_data, l):
             hash_tables[j][idx].append(i)
 
 
-def brute_force_comparison(v,articles, input_data):
+def brute_force_comparison(v, articles, input_data):
 	#v is the index of the query article is the list of the index of target articles
     # input_data is the actual input 
 	#returns the index of the nearest nneighbor
@@ -81,15 +88,19 @@ def classify_articles(input_data):
                     comparisons += 1
         nearest_index = brute_force_comparison(i, candidates, input_data)
         near_n_class = 1 + math.floor((nearest_index-1) / 50)
-        print('the nearest neighbout of %d is %d real class: %d, %d' %(i, nearest_index, true_class, near_n_class ))
+        
+        if debug:
+        	print('the nearest neighbor of %d is %d real class: %d, nearest neighbor class %d' %(i, nearest_index, true_class, near_n_class ))
+        
         if  near_n_class == true_class:
             corrects += 1
         else:
             wrongs += 1
+    # end of for loop
     print('average comparisins is %.2f ' %(comparisons / 1000)) 
     print('correct: %d incorrect: %d ' %(corrects, wrongs))
 
-# this function uses the bruteforce routine to test the performance of the bruteforce 
+# this function uses the bruteforce routine to test the performance of the brute force 
 def test_brute_force(input_data):
     corrects = 0
     wrongs = 0
@@ -97,7 +108,8 @@ def test_brute_force(input_data):
         true_class = 1 + math.floor((i-1) / 50)
         nidx = bruteForce.nearest_neighbor(i, input_data)
         nn_class  = 1 + math.floor((nidx - 1)/50)
-        print('the nearest neighbout of %d is %d real class: %d, %d' %(i, nidx, true_class, nn_class ))
+        if debug:
+        	print('the nearest neighbor of %d is %d real classes: %d, %d' %(i, nidx, true_class, nn_class ))
         
         if  nn_class == true_class:
             corrects += 1
@@ -107,16 +119,19 @@ def test_brute_force(input_data):
 
 if __name__ == '__main__':
 
-    # print(tuple_to_idx([1,2,3,4]))
-    # print(tuple_to_idx([-1,-2,3,4]))
-    # print(tuple_to_idx([1,2,-3,-4]))
 
-    l = 8
-    k = 8
-    init_hash_matrices(l, k)
-    input_data = parser.parse_data()
-    
-    #test_brute_force(input_data)
-    hash_elements(input_data, l)
-    classify_articles(input_data)
+	input_data = parser.parse_data()
+	for l in [4,8,16]:
+		for k in [4, 8, 16]:
+			print('Using local sensitivity hashing. l= %d k= %d' %(l, k))
+			init_hash_matrices(l=l, k=k)
+			hash_elements(input_data, l)
+			classify_articles(input_data)
+			print(line_break)
+			# to force output if redirecting to a file
+			sys.stdout.flush()
+
+	print('Now doing brute force')
+	test_brute_force(input_data)
+
     # print(hash_tables[1])
