@@ -24,14 +24,12 @@ def tuple_to_idx(v):
     return result
 
 def init_hash_matrices(l, k):
-    # #xxx change this
-    # global dimension
-    # dimension = 5
-
+    #inirializing / reinitializing the book keeping structures
     global hash_tables, hash_matrices
     hash_tables = []
     hash_matrices = []
     
+    # building the hash table and the hash functions
     for i in range(0, l):
         hash_table = []
         for j in range(0, 2**k):
@@ -46,8 +44,9 @@ def init_hash_matrices(l, k):
 
         hash_matrices.append(hash_matrix)
 
-def hash_elements(input_data, l):
-    
+
+# this function hashes all of the elements in the input data into the hash table
+def hash_elements(input_data, l):    
     for i in range(1, input_lines + 1):
         for j in range(0, l):
             hash_results = np.matmul(hash_matrices[j], np.transpose(input_data[i]))
@@ -55,7 +54,7 @@ def hash_elements(input_data, l):
             idx = tuple_to_idx(hash_results)
             hash_tables[j][idx].append(i)
 
-
+# this function performes brutefoce comparision to find the class of the nearest neighbor of v
 def brute_force_comparison(v, articles, input_data):
 	#v is the index of the query article is the list of the index of target articles
     # input_data is the actual input 
@@ -71,6 +70,8 @@ def brute_force_comparison(v, articles, input_data):
 	return nearestindex
 
 
+# uses local senstive hashing to do the classification; finds the nearest neighbor and classifies the the artivle v based on the class of 
+# its nearest neighbor
 def classify_articles(input_data):
     comparisons = 0
     corrects = 0
@@ -83,7 +84,7 @@ def classify_articles(input_data):
             hash_results = np.matmul(hash_matrices[j], np.transpose(input_data[i]))
             idx = tuple_to_idx(hash_results)
             for x in hash_tables[j][idx]:
-                if x != i:
+                if x != i and not x in candidates:
                     candidates.append(x)
                     comparisons += 1
         nearest_index = brute_force_comparison(i, candidates, input_data)
@@ -99,6 +100,7 @@ def classify_articles(input_data):
     # end of for loop
     print('average comparisins is %.2f ' %(comparisons / 1000)) 
     print('correct: %d incorrect: %d ' %(corrects, wrongs))
+
 
 # this function uses the bruteforce routine to test the performance of the brute force 
 def test_brute_force(input_data):
@@ -117,9 +119,8 @@ def test_brute_force(input_data):
             wrongs += 1
     print('correct: %d incorrect: %d ' %(corrects, wrongs))  
 
+
 if __name__ == '__main__':
-
-
 	input_data = parser.parse_data()
 	for l in [4,8,16]:
 		for k in [4, 8, 16]:
