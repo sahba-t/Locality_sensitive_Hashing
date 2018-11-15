@@ -1,0 +1,47 @@
+Using local sensitivity hashing. l= 4 k= 4
+average comparisins is 866.80 
+correct: 395 incorrect: 605 
+-----------------------------------------------------
+
+Using local sensitivity hashing. l= 4 k= 8
+average comparisins is 111.09 
+correct: 281 incorrect: 719 
+-----------------------------------------------------
+
+Using local sensitivity hashing. l= 4 k= 16
+average comparisins is 1.89 
+correct: 89 incorrect: 911 
+-----------------------------------------------------
+
+Using local sensitivity hashing. l= 8 k= 4
+average comparisins is 1408.39 
+correct: 443 incorrect: 557 
+-----------------------------------------------------
+
+Using local sensitivity hashing. l= 8 k= 8
+average comparisins is 191.11 
+correct: 356 incorrect: 644 
+-----------------------------------------------------
+
+Using local sensitivity hashing. l= 8 k= 16
+average comparisins is 5.88 
+correct: 126 incorrect: 874 
+-----------------------------------------------------
+
+Using local sensitivity hashing. l= 16 k= 4
+average comparisins is 2135.63 
+correct: 447 incorrect: 553 
+-----------------------------------------------------
+
+Using local sensitivity hashing. l= 16 k= 8
+average comparisins is 289.53 
+correct: 399 incorrect: 601 
+-----------------------------------------------------
+
+Using local sensitivity hashing. l= 16 k= 16
+average comparisins is 17.84 
+correct: 196 incorrect: 804 
+-----------------------------------------------------
+
+Now doing brute force
+correct: 453 incorrect: 547 
